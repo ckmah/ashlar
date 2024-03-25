@@ -117,6 +117,11 @@ class FileSeriesMetadata(reg.PlateMetadata):
         self.channel_map = dict(enumerate(sorted(channels)))
         path = self.path / self.filename(0, 0)
         img = _read(path)
+
+        # Flatten z and channel dimensions.
+        if img.ndim == 4:
+            img = img.reshape(-1, *img.shape[-2:])
+        
         if img.ndim not in (2, 3):
             raise Exception(f"Image must have 2 or 3 dimensions: {path}")
         self._tile_size = np.array(img.shape[-2:])
