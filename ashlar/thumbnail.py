@@ -41,15 +41,14 @@ def make_thumbnail(reader, channel=0, scale=0.05):
 
 
 def calculate_image_offset(img1, img2, upsample_factor=1):
-    ref = utils.window(utils.whiten(img1, 0))
-    test = utils.window(utils.whiten(img2, 0))
+    ref = utils.window(utils.whiten(img1, 1))
+    test = utils.window(utils.whiten(img2, 1))
     shift = phase_cross_correlation(
         ref,
         test,
         upsample_factor=upsample_factor,
-        normalization=None,
-        return_error=False,
-    )
+        normalization=None
+    )[0]
     return shift
 
 
